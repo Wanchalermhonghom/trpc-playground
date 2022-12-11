@@ -11,9 +11,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
+    //Allows application to access session data from 
+    //everywhere in the app with the useSession hook
     <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
+
   );
 };
 

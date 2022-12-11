@@ -3,6 +3,12 @@ import superjson from "superjson";
 
 import { type Context } from "./context";
 
+
+/**
+ * First: Create a tRPC instance 
+ * Only one instance per app
+ *  setup with request context
+ */
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
   errorFormatter({ shape }) {
@@ -10,10 +16,12 @@ const t = initTRPC.context<Context>().create({
   },
 });
 
+//Second: Define a router
 export const router = t.router;
 
 /**
  * Unprotected procedure
+ * Can be viewed as the equivalent of a REST endpoint
  **/
 export const publicProcedure = t.procedure;
 
@@ -35,5 +43,6 @@ const isAuthed = t.middleware(({ ctx, next }) => {
 
 /**
  * Protected procedure
+ * 
  **/
 export const protectedProcedure = t.procedure.use(isAuthed);
