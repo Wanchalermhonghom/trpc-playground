@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 // import { faker } from '@faker-js/faker/locale/de';
-import { PrismaClient, User } from "@prisma/client";
+import { Categories, Home, PrismaClient, User } from "@prisma/client";
 
 export const users: Partial<User>[] = [];
 
@@ -11,6 +11,25 @@ export function createRandomUser(): Partial<User> {
     emailVerified: faker.date.past(),
     image: faker.name.firstName(),
   };
+}
+
+export function createRandomHome(): Partial<Home> {
+  return {
+    name: faker.name.firstName(),
+    city: faker.address.cityName(),
+    state: faker.address.state(),
+    zip: faker.address.zipCode(),
+    country: faker.address.country(),
+    categoryId: faker.datatype.uuid(),
+  };
+}
+
+export function createAllCategories(): Partial<Categories> {
+  // const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+  // return {
+  //   name: randomCategory
+  // }
+  return {};
 }
 
 Array.from({ length: 10 }).forEach(() => {
