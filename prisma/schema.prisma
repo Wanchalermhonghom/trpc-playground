@@ -66,7 +66,7 @@ model Home {
   state      String
   zip        String
   country    String
-  categoryId String 
+  categoryId String
   category   Categories @relation(fields: [categoryId], references: [id])
 }
 
@@ -74,6 +74,6 @@ model Categories {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name     String
+  name      String @unique
   homes     Home[]
 }

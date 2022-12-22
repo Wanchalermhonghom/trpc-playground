@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 // import { faker } from '@faker-js/faker/locale/de';
-import { Categories, Home, PrismaClient, User } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
+import { categories } from "@types/home";
 
 export const users: Partial<User>[] = [];
 
@@ -13,37 +14,51 @@ export function createRandomUser(): Partial<User> {
   };
 }
 
-export function createRandomHome(): Partial<Home> {
+export function createRandomHome() {
   return {
     name: faker.name.firstName(),
     city: faker.address.cityName(),
     state: faker.address.state(),
     zip: faker.address.zipCode(),
     country: faker.address.country(),
-    categoryId: faker.datatype.uuid(),
   };
 }
 
-export function createAllCategories(): Partial<Categories> {
-  // const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-  // return {
-  //   name: randomCategory
-  // }
-  return {};
-}
+// export function createAllCategoriesWithRanbdomHomes(): Partial<Categories> {
+// categories.forEach((category) => {
+//   return {
+//     name: category,
+//     homes: Array.from({ length: 10 }).map(() => createRandomHome()),
+//   };
+// }
+
+// }
 
 Array.from({ length: 10 }).forEach(() => {
   users.push(createRandomUser());
 });
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
+
 async function main() {
   users.forEach(async (user) => {
     await prisma.user.create({
       data: user,
     });
   });
+
+  categories.forEach(async (category) => {
+    await prisma.categories.create({
+      data: {
+        name: category,
+        homes: {
+          create: Array.from({ length: 10 }).map(() => createRandomHome()),
+        },
+      },
+    });
+  });
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect();
