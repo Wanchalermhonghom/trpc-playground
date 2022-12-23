@@ -7,6 +7,19 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
+  images: {
+    domains: ["loremflickr.com"],
+  },
+  experimental: {
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
+  },
   reactStrictMode: true,
   swcMinify: true,
   i18n: {

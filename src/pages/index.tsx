@@ -1,27 +1,26 @@
-import { Categories, PrismaClient } from "@prisma/client";
+import { Grid, Skeleton } from "@mantine/core";
+import { PrismaClient } from "@prisma/client";
 import { InferGetStaticPropsType } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import superjson from "superjson";
-
+import { useEffect } from "react";
+import HomeCard from "../components/HomeCard";
+import { categoryStore } from "../store/store";
 import { trpc } from "../utils/trpc";
 
 const Home = ({
   categories,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const parsedCategories: Categories[] = superjson.parse(categories);
+  const { setSelectedCategory } = categoryStore();
+  useEffect(() => {
+    setSelectedCategory(categories[0] ?? ({} as any));
+  }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState<Categories>(
-    parsedCategories.at(0)!
-  );
+  const selectedCategory = categoryStore((state) => state.selectedCategory);
 
-  useEffect(() => {}, []);
-
-  const { data, refetch } = trpc.home.getHomesByCategoryId.useQuery({
+  const { data, isLoading } = trpc.home.getHomesByCategoryId.useQuery({
     categoryId: selectedCategory.id,
   });
 
-  console.log(data);
   return (
     <>
       <Head>
@@ -30,32 +29,17 @@ const Home = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <div className="flex items-center gap-2">
-            {parsedCategories?.map((category) => {
-              return (
-                <button
-                  onClick={() => {
-                    setSelectedCategory(category);
-                  }}
-                  key={category.id}
-                >
-                  {category.name}
-                </button>
-              );
-            })}
-          </div>
-          <div>
+        <Skeleton visible={isLoading}>
+          <Grid>
             {data?.map((home) => {
               return (
-                <div key={home.id}>
-                  <h1>{home.name}</h1>
-                  <p>{home.city}</p>
-                </div>
+                <Grid.Col span={3}>
+                  <HomeCard price={home.price} city={home.city} country={home.country} image={home.image} key={home.id}></HomeCard>
+                </Grid.Col>
               );
             })}
-          </div>
-        </div>
+          </Grid>
+        </Skeleton>
       </main>
     </>
   );
@@ -68,7 +52,7 @@ export async function getStaticProps(context: any) {
 
   return {
     props: {
-      categories: superjson.stringify(categories),
+      categories: categories,
     },
   };
 }

@@ -65,15 +65,18 @@ model Home {
   city       String
   state      String
   zip        String
+  image      String
+  price      Int
   country    String
   categoryId String
   category   Categories @relation(fields: [categoryId], references: [id])
 }
 
 model Categories {
+  
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String @unique
+  name      String   @unique
   homes     Home[]
 }

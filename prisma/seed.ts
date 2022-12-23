@@ -21,6 +21,8 @@ export function createRandomHome() {
     state: faker.address.state(),
     zip: faker.address.zipCode(),
     country: faker.address.country(),
+    image: faker.image.city(1234, 2345, true),
+    price: parseInt(faker.commerce.price(100, 600)),
   };
 }
 
