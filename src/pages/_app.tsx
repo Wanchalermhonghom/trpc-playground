@@ -4,9 +4,10 @@ import { type AppType } from "next/app";
 
 import { trpc } from "../utils/trpc";
 
-import { AppShell, Header, useMantineTheme } from "@mantine/core";
+import { AppShell, useMantineTheme } from "@mantine/core";
 import { useState } from "react";
-import CustomNavbar from "../components/Navbar";
+import CustomHeader from "../components/CustomHeader";
+import CustomNavbar from "../components/CustomNavbar";
 import { categoryStore } from "../store/store";
 import "../styles/globals.css";
 
@@ -26,11 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <AppShell
         padding="md"
         navbar={<CustomNavbar categories={pageProps.categories}></CustomNavbar>}
-        header={
-          <Header height={60} p="xs">
-            <button onClick={() => setOpened(!opened)}>button</button>
-          </Header>
-        }
+        header={<CustomHeader></CustomHeader>}
         styles={(theme) => ({
           main: {
             backgroundColor:

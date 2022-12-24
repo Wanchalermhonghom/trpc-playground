@@ -34,7 +34,13 @@ const Home = ({
             {data?.map((home) => {
               return (
                 <Grid.Col span={3}>
-                  <HomeCard price={home.price} city={home.city} country={home.country} image={home.image} key={home.id}></HomeCard>
+                  <HomeCard
+                    price={home.price}
+                    city={home.city}
+                    country={home.country}
+                    image={home.image}
+                    key={home.id}
+                  ></HomeCard>
                 </Grid.Col>
               );
             })}
@@ -48,7 +54,7 @@ const Home = ({
 export async function getStaticProps(context: any) {
   const prisma = new PrismaClient();
 
-  const categories = await prisma.categories.findMany();
+  const categories = await prisma.category.findMany();
 
   return {
     props: {

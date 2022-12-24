@@ -1,17 +1,17 @@
-import { Categories } from "@prisma/client";
+import { Category } from "@prisma/client";
 import create from "zustand";
 
 type CategoryStore = {
-    selectedCategory: Categories;
-    homes: any;
-    setSelectedCategory: (category: Categories) => void;
-    setHomes: (homes: any) => void;
-}
+  selectedCategory: Category;
+  homes: any;
+  setSelectedCategory: (category: Category) => void;
+  setHomes: (homes: any) => void;
+};
 
 export const categoryStore = create<CategoryStore>((set, get) => ({
   selectedCategory: {} as any,
   homes: [],
-  setSelectedCategory: (category: Categories) =>
+  setSelectedCategory: (category: Category) =>
     set({ selectedCategory: category }),
   setHomes: (homes: any) => set({ homes: homes }),
 }));

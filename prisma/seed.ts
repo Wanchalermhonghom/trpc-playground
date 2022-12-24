@@ -50,7 +50,7 @@ async function main() {
   });
 
   categories.forEach(async (category) => {
-    await prisma.categories.create({
+    await prisma.category.create({
       data: {
         name: category,
         homes: {
