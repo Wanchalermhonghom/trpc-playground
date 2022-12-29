@@ -1,5 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
+import GoogleProvider from "next-auth/providers/google";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
@@ -15,6 +16,17 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async signIn({ account, profile }) {
+      if (account.provider === "google") {
+        return profile.email_verified && profile.email.endsWith("@example.com");
+      }
+      return true; // Do different verification for other providers that don't have `email_verified`
+    },
+  },
+
+  pages: {
+    signIn: "/login",
+    signOut: "/signout",
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
@@ -22,6 +34,10 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     // ...add more providers here
   ],

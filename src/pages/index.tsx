@@ -1,15 +1,17 @@
 import { Grid, Skeleton } from "@mantine/core";
 import { PrismaClient } from "@prisma/client";
-import { InferGetStaticPropsType } from "next";
+import { GetServerSidePropsContext, InferGetStaticPropsType } from "next";
+import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useEffect } from "react";
 import HomeCard from "../components/HomeCard";
 import { categoryStore } from "../store/store";
 import { trpc } from "../utils/trpc";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 const Home = ({
   categories,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetStaticPropsType<typeof getServerSideProps>) => {
   const { setSelectedCategory } = categoryStore();
   useEffect(() => {
     setSelectedCategory(categories[0] ?? ({} as any));
@@ -51,13 +53,30 @@ const Home = ({
   );
 };
 
-export async function getStaticProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
   const prisma = new PrismaClient();
 
   const categories = await prisma.category.findMany();
+  // const session = await getSession(context.req);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
+      session,
       categories: categories,
     },
   };

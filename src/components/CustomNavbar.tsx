@@ -1,16 +1,23 @@
 import { Avatar, Button, Navbar, Stack } from "@mantine/core";
 import { Category } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import { categoryStore } from "../store/store";
+import { trpc } from "../utils/trpc";
 
-const CustomNavbar = ({ categories }: { categories: Category[] }) => {
+const CustomNavbar = () => {
   const setSelectedCategory = categoryStore(
     (state) => state.setSelectedCategory
   );
+
+  const { data: categories } = trpc.home.getAll.useQuery();
+
+  const { data: session } = useSession();
+
   return (
     <Navbar width={{ base: 300 }} height={500} p="xs">
       {/* Navbar content */}
       <Stack>
-        {categories?.map((category) => {
+        {categories?.map((category: Category) => {
           return (
             <Button
               variant="subtle"
@@ -26,7 +33,7 @@ const CustomNavbar = ({ categories }: { categories: Category[] }) => {
         })}
       </Stack>
       <Avatar color="cyan" radius="xl">
-        MK
+        {session?.user?.image ? <img src={session.user.image} /> : " MK"}
       </Avatar>
     </Navbar>
   );
