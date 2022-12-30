@@ -3,12 +3,15 @@ import {
   Card as Paper,
   Center,
   Divider,
+  Group,
   PasswordInput,
   Stack,
+  Text,
   TextInput,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { signIn } from "next-auth/react";
+import { FaDiscord, FaGoogle } from "react-icons/fa";
 import { string, z } from "zod";
 
 const LoginForm = () => {
@@ -57,10 +60,16 @@ const LoginForm = () => {
         <Center style={{ width: 400, height: 200 }}>
           <Stack>
             <Button variant="outline" onClick={() => signIn("google")}>
-              Log In Google
+              <Group>
+                <Text fz="sm">Log In Google</Text>
+                <FaGoogle />
+              </Group>
             </Button>
             <Button variant="outline" onClick={() => signIn("discord")}>
-              Log In Discord
+              <Group>
+                <Text fz="sm">Log In Discord</Text>
+                <FaDiscord />
+              </Group>
             </Button>
           </Stack>
         </Center>
