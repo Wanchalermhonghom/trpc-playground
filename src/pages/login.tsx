@@ -1,12 +1,13 @@
-import { Button, Center } from "@mantine/core";
-import { signIn } from "next-auth/react";
+import { Flex } from "@mantine/core";
 import LoginForm from "../components/LoginForm";
 
 const login = () => {
   return (
-    <Center>
-    <LoginForm></LoginForm>
-    </Center>
+    <Flex className="h-screen bg-slate-100">
+      <div className="m-auto">
+        <LoginForm></LoginForm>
+      </div>
+    </Flex>
   );
 };
 
