@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cloud-1 {
+  transform: translateX(-100px);
+  bottom: 100px;
+  animation: cloud-1 20s linear infinite;
+}
+
+@keyframes cloud-1 {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(2260px);
+  }
+}
+
+.cloud-2 {
+  transform: translateX(-100px);
+  top: 100px;
+  animation: cloud-2 25s linear infinite;
+}
+
+@keyframes cloud-2 {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(2260px);
+  }
+}
