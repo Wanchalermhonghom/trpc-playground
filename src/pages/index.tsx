@@ -5,6 +5,7 @@ import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useEffect } from "react";
 import HomeCard from "../components/HomeCard";
+import Layout from "../components/layouts/Layout";
 import { categoryStore } from "../store/store";
 import { trpc } from "../utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
@@ -31,23 +32,25 @@ const Home = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="">
-        <Skeleton visible={isLoading}>
-          <Grid>
-            {data?.map((home) => {
-              return (
-                <Grid.Col span={3}>
-                  <HomeCard
-                    price={home.price}
-                    city={home.city}
-                    country={home.country}
-                    image={home.image}
-                    key={home.id}
-                  ></HomeCard>
-                </Grid.Col>
-              );
-            })}
-          </Grid>
-        </Skeleton>
+        <Layout>
+          <Skeleton visible={isLoading}>
+            <Grid>
+              {data?.map((home) => {
+                return (
+                  <Grid.Col span={3}>
+                    <HomeCard
+                      price={home.price}
+                      city={home.city}
+                      country={home.country}
+                      image={home.image}
+                      id={home.id}
+                    ></HomeCard>
+                  </Grid.Col>
+                );
+              })}
+            </Grid>
+          </Skeleton>
+        </Layout>
       </main>
     </>
   );

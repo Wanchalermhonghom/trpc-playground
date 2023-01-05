@@ -17,7 +17,7 @@ const CustomHeader = () => {
         <Button variant="subtle" color="dark" onClick={() => console.log(32)}>
           Import
         </Button>
-        <Button variant="subtle" color="dark" onClick={() => signOut}>
+        <Button variant="subtle" color="dark" onClick={() => signOut()}>
           Log out
         </Button>
         <Button variant="subtle" color="dark" onClick={() => signIn()}>

@@ -1,6 +1,6 @@
 import {
   Button,
-  Card as Paper,
+  Card,
   Center,
   Divider,
   Group,
@@ -26,7 +26,7 @@ const LoginForm = () => {
   });
 
   return (
-    <Paper shadow="xs">
+    <Card shadow="xs">
       <Stack spacing="lg" className="px-8">
         {/* top, right, left margins are negative – -1 * theme.spacing.xl */}
         <Divider my="xs" label="Login Page" labelPosition="center" />
@@ -59,13 +59,23 @@ const LoginForm = () => {
         {/* bottom, right, left margins are negative – -1 * theme.spacing.xl */}
         <Center style={{ width: 400, height: 200 }}>
           <Stack>
-            <Button variant="outline" onClick={() => signIn("google")}>
+            <Button
+              variant="outline"
+              onClick={() =>
+                signIn("google", { callbackUrl: "http://localhost:3000/" })
+              }
+            >
               <Group>
                 <Text fz="sm">Log In Google</Text>
                 <FaGoogle />
               </Group>
             </Button>
-            <Button variant="outline" onClick={() => signIn("discord")}>
+            <Button
+              variant="outline"
+              onClick={() =>
+                signIn("discord", { callbackUrl: "http://localhost:3000/" })
+              }
+            >
               <Group>
                 <Text fz="sm">Log In Discord</Text>
                 <FaDiscord />
@@ -74,7 +84,7 @@ const LoginForm = () => {
           </Stack>
         </Center>
       </Stack>
-    </Paper>
+    </Card>
   );
 };
 
