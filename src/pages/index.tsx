@@ -1,11 +1,11 @@
 import { Grid, Skeleton } from "@mantine/core";
-import { PrismaClient } from "@prisma/client";
 import { GetServerSidePropsContext, InferGetStaticPropsType } from "next";
 import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useEffect } from "react";
 import HomeCard from "../components/HomeCard";
 import Layout from "../components/layouts/Layout";
+import { prisma } from "../server/db/client";
 import { categoryStore } from "../store/store";
 import { trpc } from "../utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
@@ -63,10 +63,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     authOptions
   );
 
-  const prisma = new PrismaClient();
-
   const categories = await prisma.category.findMany();
-  // const session = await getSession(context.req);
 
   if (!session) {
     return {

@@ -13,8 +13,17 @@ export const homeRouter = router({
       return ctx.prisma.home.findMany({
         where: {
           categoryId: input.categoryId,
-        }
+        },
       });
+    }),
+  getHomesById: publicProcedure
+    .input(z.object({ homeId: z.string().cuid() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.home.findUnique({
+        where: {
+          id: input.homeId,
+        }
+      })
     }),
   createHome: publicProcedure
     .input(z.object({ text: z.string().nullish() }).nullish())

@@ -8,21 +8,19 @@ const CustomHeader = () => {
       {session?.user?.name && <div>{"Hello " + session.user.name}</div>}
 
       <Group>
-        <Button variant="subtle" color="dark" onClick={() => console.log(32)}>
-          Data Display
-        </Button>
-        <Button variant="subtle" color="dark" onClick={() => console.log(32)}>
-          Mutations
-        </Button>
-        <Button variant="subtle" color="dark" onClick={() => console.log(32)}>
-          Import
-        </Button>
-        <Button variant="subtle" color="dark" onClick={() => signOut()}>
-          Log out
-        </Button>
-        <Button variant="subtle" color="dark" onClick={() => signIn()}>
-          Log in
-        </Button>
+        {session ? (
+          <Button
+            variant="subtle"
+            color="dark"
+            onClick={() => signOut({ callbackUrl: "/login" })}
+          >
+            Log out
+          </Button>
+        ) : (
+          <Button variant="subtle" color="dark" onClick={() => signIn()}>
+            Log in
+          </Button>
+        )}
       </Group>
     </Header>
   );
